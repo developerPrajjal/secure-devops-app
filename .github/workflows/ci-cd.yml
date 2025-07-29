@@ -1,0 +1,41 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: ⬇️ Checkout code
+      uses: actions/checkout@v3
+
+    - name: 🧱 Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: 📦 Install backend dependencies
+      working-directory: backend
+      run: npm install
+
+    - name: ✅ Run backend tests (optional)
+      working-directory: backend
+      run: echo "No tests yet"
+
+    - name: 📦 Install frontend dependencies
+      working-directory: frontend
+      run: npm install
+
+    - name: ✅ Run frontend tests (optional)
+      working-directory: frontend
+      run: echo "No tests yet"
+
+    - name: 🐳 Build Docker images
+      run: docker-compose build
+
+    # (Optional) DockerHub Push and Snyk Scan to be added
